@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="Random Art Evolver" package="nl.wieringsoftware.evolver" version="1.0.0" company="Wiering Software" />
+	<app main="Main" file="Main" path="Export" />
+	
+	<window width="1024" height="600" fps="60" vsync="true" orientation="landscape" background="#000000" resizable="true" hardware="true" if="flash" />
+	<window width="1024" height="600" fps="60" vsync="true" orientation="landscape" background="#000000" resizable="true" hardware="true" unless="flash" />
+	
+	<assets path="Assets" include="*.png" />
+	
+	<source path="src" />
+	
+	<haxelib name="openfl" />
+	
+	<haxedef name="USE_TEXTFIELD" />
+
+</project>
