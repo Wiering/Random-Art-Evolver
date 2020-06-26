@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta charset="utf-8">
+	
+	<title>Random Art Evolver</title>
+	
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	
+	
+	<link rel="shortcut icon" type="image/png" href="./favicon.png">
+	
+	
+	<script type="text/javascript" src="../Export/html5/bin/Main.js"></script>
+	
+	<script>
+		window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, { capture: false, passive: false });
+		if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
+			var meta = document.getElementById ("viewport");
+			meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
+		}
+	</script>
+	
+	<style>
+		html,body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+		#openfl-content { background: #000000; width: 100%; height: 100%; }
+
+	</style>
+	
+</head>
+<body bgcolor="#EEE">
+	<noscript>This webpage makes extensive use of JavaScript. Please enable JavaScript in your web browser to view this page.</noscript>
+	
+	<center><H1>Random Art Evolver</H1>
+	
+	Click on the most interesting image to evolve it further <br/><br/>
+	
+	<div id="openfl-content" style="width:1024px; height: 600px;"></div>
+	
+	<script type="text/javascript">
+		lime.embed ("Main", "openfl-content", 1024, 600, { parameters: {} });
+	</script>
+	
+	<h2>Instructions</h2>
+
+   Click on a block to evolve it further (if the block changes right before you click it, you can get the last one(s) back with [Shift+Backspace]).<br/>
+   You can also click the image at the right to make it evolve further. Press [Backspace] to go back to the previous image. <br/><br/>
+
+   Press [0]-[9] for mutation speed, [S] for small (256x256) or large block (512x512), [T] for transparency, [R] to reset all blocks.<br/>
+   You can copy / paste code with [Ctrl+C] / [Ctrl+V] (or hand-edit it), you can make it longer / shorter with [+] / [-]. <br/><br/>
+	
+	 <a href="https://github.com/Wiering/Random-Art-Evolver">Source code</a>
+	</center>
+	
+</body>
+</html>
