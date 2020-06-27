@@ -891,7 +891,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "1";
+	app.meta.h["build"] = "4";
 	app.meta.h["company"] = "Wiering Software";
 	app.meta.h["file"] = "Main";
 	app.meta.h["name"] = "Random Art Evolver";
@@ -2182,42 +2182,6 @@ var Box = function(x,y,screen,v) {
 };
 $hxClasses["Box"] = Box;
 Box.__name__ = "Box";
-Box.writeString = function(x,y,s,color,backColor,bmTarget) {
-	if(backColor == null) {
-		backColor = 0;
-	}
-	var bdAscii = openfl_utils_Assets.getBitmapData("Assets/ascii.png");
-	var bd = new openfl_display_BitmapData(8 * s.length,16,true,backColor);
-	var m = new openfl_geom_Matrix();
-	var ct = new openfl_geom_ColorTransform((color & 255) / 255.0,(color >> 8 & 255) / 255.0,(color >> 16 & 255) / 255.0,1);
-	var _g = 0;
-	var _g1 = s.length;
-	while(_g < _g1) {
-		var i = _g++;
-		var c = HxOverrides.cca(s,i);
-		var xp = 8 * (c & 15);
-		var yp = 16 * (c >> 4);
-		m.identity();
-		m.translate(-xp + i * 8,-yp);
-		bd.draw(bdAscii,m,ct,null,new openfl_geom_Rectangle(i * 8,0,8,16));
-	}
-	var target = Main.screen;
-	if(bmTarget == null) {
-		target.get_graphics().beginFill(16777215,1.0);
-		target.get_graphics().drawRect(x,y,bd.width,bd.height);
-		target.get_graphics().endFill();
-		m.identity();
-		m.translate(x,y);
-		target.get_graphics().beginBitmapFill(bd,m,false,false);
-		target.get_graphics().drawRect(x,y,bd.width,bd.height);
-		target.get_graphics().endFill();
-	}
-	if(bmTarget != null) {
-		m.identity();
-		m.scale(2.0,2.0);
-		bmTarget.get_bitmapData().draw(bd,m);
-	}
-};
 Box.setTexSize = function(tw,th) {
 	Box.TW = tw;
 	Box.TH = th;
@@ -2393,7 +2357,7 @@ ManifestResources.init = function(config) {
 		ManifestResources.rootPath = "./";
 	}
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy18:Assets%2Fascii.pngy4:sizei1707y4:typey5:IMAGEy2:idR1y7:preloadtgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"ah\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -3986,8 +3950,7 @@ $hxClasses["haxe.IMap"] = haxe_IMap;
 haxe_IMap.__name__ = "haxe.IMap";
 haxe_IMap.__isInterface__ = true;
 haxe_IMap.prototype = {
-	get: null
-	,set: null
+	set: null
 	,exists: null
 	,remove: null
 	,__class__: haxe_IMap
@@ -5441,9 +5404,6 @@ haxe_ds_IntMap.prototype = {
 	,set: function(key,value) {
 		this.h[key] = value;
 	}
-	,get: function(key) {
-		return this.h[key];
-	}
 	,exists: function(key) {
 		return this.h.hasOwnProperty(key);
 	}
@@ -5513,9 +5473,6 @@ haxe_ds_ObjectMap.prototype = {
 		this.h[id] = value;
 		this.h.__keys__[id] = key;
 	}
-	,get: function(key) {
-		return this.h[key.__id__];
-	}
 	,exists: function(key) {
 		return this.h.__keys__[key.__id__] != null;
 	}
@@ -5571,9 +5528,6 @@ haxe_ds_StringMap.prototype = {
 	h: null
 	,exists: function(key) {
 		return Object.prototype.hasOwnProperty.call(this.h,key);
-	}
-	,get: function(key) {
-		return this.h[key];
 	}
 	,set: function(key,value) {
 		this.h[key] = value;
@@ -22812,7 +22766,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 628042;
+	this.version = 175088;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -24827,7 +24781,6 @@ lime_utils_ObjectPool.prototype = {
 		if(!this.__pool.exists(object)) {
 			this.__pool.set(object,false);
 			this.clean(object);
-			this.__pool.set(object,false);
 			if(this.__inactiveObject0 == null) {
 				this.__inactiveObject0 = object;
 			} else if(this.__inactiveObject1 == null) {
@@ -24870,7 +24823,6 @@ lime_utils_ObjectPool.prototype = {
 					this.__inactiveObject1 = this.__inactiveObjectList.pop();
 				}
 			}
-			this.__pool.set(object1,true);
 			this.inactiveObjects--;
 			this.activeObjects++;
 			object = object1;
@@ -24884,15 +24836,9 @@ lime_utils_ObjectPool.prototype = {
 		return object;
 	}
 	,release: function(object) {
-		if(!this.__pool.exists(object)) {
-			lime_utils_Log.error("Object is not a member of the pool",{ fileName : "lime/utils/ObjectPool.hx", lineNumber : 102, className : "lime.utils.ObjectPool", methodName : "release"});
-		} else if(!this.__pool.get(object)) {
-			lime_utils_Log.error("Object has already been released",{ fileName : "lime/utils/ObjectPool.hx", lineNumber : 106, className : "lime.utils.ObjectPool", methodName : "release"});
-		}
 		this.activeObjects--;
 		if(this.__size == null || this.activeObjects + this.inactiveObjects < this.__size) {
 			this.clean(object);
-			this.__pool.set(object,false);
 			if(this.__inactiveObject0 == null) {
 				this.__inactiveObject0 = object;
 			} else if(this.__inactiveObject1 == null) {
@@ -24922,7 +24868,6 @@ lime_utils_ObjectPool.prototype = {
 		}
 	}
 	,__addInactive: function(object) {
-		this.__pool.set(object,false);
 		if(this.__inactiveObject0 == null) {
 			this.__inactiveObject0 = object;
 		} else if(this.__inactiveObject1 == null) {
@@ -24949,7 +24894,6 @@ lime_utils_ObjectPool.prototype = {
 				this.__inactiveObject1 = this.__inactiveObjectList.pop();
 			}
 		}
-		this.__pool.set(object,true);
 		this.inactiveObjects--;
 		this.activeObjects++;
 		return object;
@@ -58553,7 +58497,13 @@ openfl_display_Stage.prototype = $extend(openfl_display_DisplayObjectContainer.p
 				var dispatcher = dispatchers[_g];
 				++_g;
 				if(dispatcher.stage == this || dispatcher.stage == null) {
-					dispatcher.__dispatch(event);
+					try {
+						dispatcher.__dispatch(event);
+					} catch( _g1 ) {
+						haxe_NativeStackTrace.lastError = _g1;
+						var e = haxe_Exception.caught(_g1).unwrap();
+						this.__handleError(e);
+					}
 				}
 			}
 		}
@@ -58593,7 +58543,14 @@ openfl_display_Stage.prototype = $extend(openfl_display_DisplayObjectContainer.p
 		}
 	}
 	,__dispatchEvent: function(event) {
-		return openfl_display_DisplayObjectContainer.prototype.__dispatchEvent.call(this,event);
+		try {
+			return openfl_display_DisplayObjectContainer.prototype.__dispatchEvent.call(this,event);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			var e = haxe_Exception.caught(_g).unwrap();
+			this.__handleError(e);
+			return false;
+		}
 	}
 	,__dispatchPendingMouseEvent: function() {
 		if(this.__pendingMouseEvent) {
@@ -58602,45 +58559,58 @@ openfl_display_Stage.prototype = $extend(openfl_display_DisplayObjectContainer.p
 		}
 	}
 	,__dispatchStack: function(event,stack) {
-		var target;
-		var length = stack.length;
-		if(length == 0) {
-			event.eventPhase = 2;
-			target = event.target;
-			target.__dispatch(event);
-		} else {
-			event.eventPhase = 1;
-			event.target = stack[stack.length - 1];
-			var _g = 0;
-			var _g1 = length - 1;
-			while(_g < _g1) {
-				var i = _g++;
-				stack[i].__dispatch(event);
-				if(event.__isCanceled) {
-					return;
-				}
-			}
-			event.eventPhase = 2;
-			target = event.target;
-			target.__dispatch(event);
-			if(event.__isCanceled) {
-				return;
-			}
-			if(event.bubbles) {
-				event.eventPhase = 3;
-				var i = length - 2;
-				while(i >= 0) {
+		try {
+			var target;
+			var length = stack.length;
+			if(length == 0) {
+				event.eventPhase = 2;
+				target = event.target;
+				target.__dispatch(event);
+			} else {
+				event.eventPhase = 1;
+				event.target = stack[stack.length - 1];
+				var _g = 0;
+				var _g1 = length - 1;
+				while(_g < _g1) {
+					var i = _g++;
 					stack[i].__dispatch(event);
 					if(event.__isCanceled) {
 						return;
 					}
-					--i;
+				}
+				event.eventPhase = 2;
+				target = event.target;
+				target.__dispatch(event);
+				if(event.__isCanceled) {
+					return;
+				}
+				if(event.bubbles) {
+					event.eventPhase = 3;
+					var i = length - 2;
+					while(i >= 0) {
+						stack[i].__dispatch(event);
+						if(event.__isCanceled) {
+							return;
+						}
+						--i;
+					}
 				}
 			}
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			var e = haxe_Exception.caught(_g).unwrap();
+			this.__handleError(e);
 		}
 	}
 	,__dispatchTarget: function(target,event) {
-		return target.__dispatchEvent(event);
+		try {
+			return target.__dispatchEvent(event);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			var e = haxe_Exception.caught(_g).unwrap();
+			this.__handleError(e);
+			return false;
+		}
 	}
 	,__drag: function(mouse) {
 		var parent = this.__dragObject.parent;
@@ -59355,16 +59325,40 @@ openfl_display_Stage.prototype = $extend(openfl_display_DisplayObjectContainer.p
 		this.__onLimeWindowCreate($window);
 	}
 	,__onLimeGamepadAxisMove: function(gamepad,axis,value) {
-		openfl_ui_GameInput.__onGamepadAxisMove(gamepad,axis,value);
+		try {
+			openfl_ui_GameInput.__onGamepadAxisMove(gamepad,axis,value);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			var e = haxe_Exception.caught(_g).unwrap();
+			this.__handleError(e);
+		}
 	}
 	,__onLimeGamepadButtonDown: function(gamepad,button) {
-		openfl_ui_GameInput.__onGamepadButtonDown(gamepad,button);
+		try {
+			openfl_ui_GameInput.__onGamepadButtonDown(gamepad,button);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			var e = haxe_Exception.caught(_g).unwrap();
+			this.__handleError(e);
+		}
 	}
 	,__onLimeGamepadButtonUp: function(gamepad,button) {
-		openfl_ui_GameInput.__onGamepadButtonUp(gamepad,button);
+		try {
+			openfl_ui_GameInput.__onGamepadButtonUp(gamepad,button);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			var e = haxe_Exception.caught(_g).unwrap();
+			this.__handleError(e);
+		}
 	}
 	,__onLimeGamepadConnect: function(gamepad) {
-		openfl_ui_GameInput.__onGamepadConnect(gamepad);
+		try {
+			openfl_ui_GameInput.__onGamepadConnect(gamepad);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			var e = haxe_Exception.caught(_g).unwrap();
+			this.__handleError(e);
+		}
 		var _g = $bind(this,this.__onLimeGamepadAxisMove);
 		var gamepad1 = gamepad;
 		var tmp = function(axis,value) {
@@ -59391,7 +59385,13 @@ openfl_display_Stage.prototype = $extend(openfl_display_DisplayObjectContainer.p
 		gamepad.onDisconnect.add(tmp);
 	}
 	,__onLimeGamepadDisconnect: function(gamepad) {
-		openfl_ui_GameInput.__onGamepadDisconnect(gamepad);
+		try {
+			openfl_ui_GameInput.__onGamepadDisconnect(gamepad);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			var e = haxe_Exception.caught(_g).unwrap();
+			this.__handleError(e);
+		}
 	}
 	,__onLimeKeyDown: function($window,keyCode,modifier) {
 		if(this.window == null || this.window != $window) {
@@ -74197,7 +74197,7 @@ while(_g < _g1) {
 }
 lime_system_CFFI.available = false;
 lime_system_CFFI.enabled = false;
-lime_utils_Log.level = 4;
+lime_utils_Log.level = 3;
 if(typeof console == "undefined") {
 	console = {}
 }
@@ -76572,7 +76572,6 @@ haxe_lang_Iterable.__meta__ = { obj : { SuppressWarnings : ["checkstyle:FieldDoc
 ApplicationMain.main();
 })(typeof exports != "undefined" ? exports : typeof window != "undefined" ? window : typeof self != "undefined" ? self : this, typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
 
-//# sourceMappingURL=Main.js.map
 });
 $hx_exports.lime = $hx_exports.lime || {};
 $hx_exports.lime.$scripts = $hx_exports.lime.$scripts || {};

@@ -71,7 +71,7 @@ class Box
 	public static var vBox: Box;
 	
 	
-	
+#if !html5	
 	public static function writeString (x: Int, y: Int, s: String, color: Int, ?backColor: Int = 0, ?bmTarget: Bitmap = null)
 	{
 		var bdAscii = Assets.getBitmapData ("Assets/ascii.png");
@@ -110,7 +110,7 @@ class Box
 			bmTarget.bitmapData.draw (bd, m);
 		}
 	}
-	
+#end
 	
 	
 	

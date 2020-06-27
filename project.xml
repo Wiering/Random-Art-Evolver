@@ -7,7 +7,7 @@
 	<window width="1024" height="600" fps="60" vsync="true" orientation="landscape" background="#000000" resizable="true" hardware="true" if="flash" />
 	<window width="1024" height="600" fps="60" vsync="true" orientation="landscape" background="#000000" resizable="true" hardware="true" unless="flash" />
 	
-	<assets path="Assets" include="*.png" />
+	<assets path="Assets" include="*.png" unless="html5" />
 	
 	<source path="src" />
 	
