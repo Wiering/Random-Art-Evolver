@@ -33,6 +33,7 @@
 <body bgcolor="#EEE">
 	<noscript>This webpage makes extensive use of JavaScript. Please enable JavaScript in your web browser to view this page.</noscript>
 	
+	<font face="helvetica,arial">
 	<center><H1>Random Art Evolver</H1>
 	
 	Click on the most interesting image to evolve it further <br/><br/>
@@ -45,14 +46,34 @@
 	
 	<h2>Instructions</h2>
 
-   Click on a block to evolve it further (if the block changes right before you click it, you can get the last one(s) back with [Shift+Backspace]).<br/>
-   You can also click the image at the right to make it evolve further. Press [Backspace] to go back to the previous image. <br/><br/>
-
-   Press [0]-[9] for mutation speed, [S] for small (256x256) or large block (512x512), [T] for transparency, [R] to reset all blocks.<br/>
-   You can copy / paste code with [Ctrl+C] / [Ctrl+V] (or hand-edit it), you can make it longer / shorter with [+] / [-]. <br/><br/>
+       Click on a block to evolve it further (if the block changes right before you click it, you can get the last one(s) back with <B>[Ctrl+Backspace]</B>). <br/>
+       You can also click the image at the right to make it evolve further. Press <B>[Backspace]</B> to go back to the previous image. <br/>
+  <br/>
+       Press <B>[0]-[9]</B> for mutation speed, <B>[S]</B> for small (256x256) or large block (512x512), <B>[T]</B> for transparency, <B>[R]</B> to reset all blocks. <br/>
+       You can copy / paste code with <B>[Ctrl+C]</B> / <B>[Ctrl+V]</B> (or hand-edit it), you can make it longer / shorter with <B>[+]</B> / <B>[-]</B>. <br/>
+  <br/>
+       Here are a few examples of codes you can try (copy and paste them into the program): <br/><br/>
+       
+   <code>
+       f29934592b8615a02455b6 (chessboard) <br/>
+       1f13e71850c41e  (noise) <br/>
+       38a06d18509f1efd25d4a739fc2c26d29c (sky) <br/>
+       088ee8f350474d2598  (blue sphere) <br/>
+       018056be50991e2745e0067ff4 (grass texture) <br/>
+       
+   </code>
+       
+   <br/>
+       Use the following <a href="http://haxe.org/">haxe</a> line of code to create a BitmapData with the image:
+   <br/>
+     <code>
+       var bd: BitmapData = ArtGen.generate (512, 512, "3e4e8d49506f1ebffc7dd5a43d"); <br/>
+     </code>
+   <br/>
 	
 	 <a href="https://github.com/Wiering/Random-Art-Evolver">Source code</a>
 	</center>
+	</font>
 	
 </body>
 </html>

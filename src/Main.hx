@@ -484,7 +484,7 @@ class Main
 		
 		if (e.keyCode == 8)
 			if (screen.stage.focus == null)
-				if (e.shiftKey && Box.vBox.lastCode != [])
+				if (e.ctrlKey && Box.vBox.lastCode != [])
 				{
 					var ba: ByteArray = Box.vBox.code;
 					Box.vBox.code = Box.vBox.lastCode.pop ();

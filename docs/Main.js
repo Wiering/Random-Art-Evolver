@@ -891,7 +891,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "4";
+	app.meta.h["build"] = "5";
 	app.meta.h["company"] = "Wiering Software";
 	app.meta.h["file"] = "Main";
 	app.meta.h["name"] = "Random Art Evolver";
@@ -1072,7 +1072,7 @@ Main.prototype = {
 		}
 		if(e.keyCode == 8) {
 			if(Main.screen.stage.get_focus() == null) {
-				if(e.shiftKey && Box.vBox.lastCode != []) {
+				if(e.ctrlKey && Box.vBox.lastCode != []) {
 					var ba = Box.vBox.code;
 					Box.vBox.code = Box.vBox.lastCode.pop();
 					Box.vBox.render();
@@ -22766,7 +22766,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 175088;
+	this.version = 81413;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
